@@ -1,0 +1,177 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Teacher List</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'custom-green': '#dcfce7',
+                        'custom-gray': '#d1d5db',
+                        'dark-gray': '#374151',
+                        'light-gray': '#f9fafb',
+                        'hover-gray': '#e5e7eb',
+                        'dark-text': '#1f2937',
+                        'red-accent': '#ef4444',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white p-4 font-sans">
+    <!-- NAVBAR -->
+    <div class="flex items-center justify-between mb-4 fixed top-0 left-0 right-0 bg-white p-4 z-50 shadow-md">
+        <div class="relative">
+            <button class="navbar-toggle text-xl mr-4 focus:outline-none" id="navbar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="navbar-menu absolute left-0 mt-2 w-48 bg-white border border-custom-gray rounded-md shadow-lg hidden" id="navbar-menu">
+                <a class="block px-4 py-2 text-dark-text hover:bg-hover-gray" href="#">Meine Daten</a>
+                <a class="block px-4 py-2 text-dark-text hover:bg-hover-gray" href="#">Meine Anzeigen</a>
+                <a class="block px-4 py-2 text-dark-text hover:bg-hover-gray" href="#">Anzeige erstellen</a>
+            </div>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="relative flex-grow mx-4">
+            <input class="search-input border border-custom-gray rounded-full pl-10 pr-4 py-2 w-full bg-custom-green focus:outline-none focus:ring-2 focus:ring-custom-green" placeholder="Suche" type="text"/>
+            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+        </div>
+
+        <!-- ABMELDEN -->
+        <div>
+            <button class="logout-button text-red-accent flex items-center focus:outline-none">
+                <i class="fas fa-sign-out-alt mr-2"></i>
+                Abmelden
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content mt-20">
+        <!-- LISTINGS -->
+        <div class="content-container flex justify-between h-[calc(100vh-200px)]">
+            <div class="teacher-list-container relative w-full overflow-hidden">
+                <div class="teacher-list-wrapper absolute inset-0 overflow-y-auto pr-4">
+                    <div id="teacher-list" class="border border-custom-gray rounded-md bg-white">
+                        <!-- Teacher entries will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- FILTER -->
+            <div class="filter-container flex flex-col items-center ml-4 w-52 min-w-52">
+                <button class="filter-toggle flex items-center text-gray-500 mt-4 focus:outline-none" id="filter-toggle">
+                    <i class="fas fa-sliders-h mr-2"></i>
+                    Filter
+                </button>
+                <div class="filter-options mt-4 p-4 border border-custom-gray rounded-md w-full bg-white shadow-sm hidden" id="filter-options">
+                    <div class="filter-item mb-4 relative">
+                        <label class="filter-label block text-dark-gray cursor-pointer p-2 bg-light-gray rounded-md" for="fach">Fach</label>
+                        <div class="filter-dropdown absolute top-full left-0 w-full bg-white border border-custom-gray rounded-md shadow-lg z-50 max-h-48 overflow-y-auto hidden" id="fach-dropdown">
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Mathe" class="mr-2">Mathe</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Deutsch" class="mr-2">Deutsch</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Englisch" class="mr-2">Englisch</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Latein" class="mr-2">Latein</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Französisch" class="mr-2">Französisch</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Spanisch" class="mr-2">Spanisch</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Geschichte" class="mr-2">Geschichte</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Geographie" class="mr-2">Geographie</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Wipo" class="mr-2">Wipo</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Physik" class="mr-2">Physik</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Chemie" class="mr-2">Chemie</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Biologie" class="mr-2">Biologie</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Informatik" class="mr-2">Informatik</label>
+                        </div>
+                    </div>
+                    <div class="filter-item mb-4 relative">
+                        <label class="filter-label block text-dark-gray cursor-pointer p-2 bg-light-gray rounded-md" for="klassenstufe">Klassenstufe</label>
+                        <div class="filter-dropdown absolute top-full left-0 w-full bg-white border border-custom-gray rounded-md shadow-lg z-50 max-h-48 overflow-y-auto hidden" id="klassenstufe-dropdown">
+                            <option value="" class="p-2 cursor-pointer hover:bg-hover-gray">Alle</option>
+                            <option value="1" class="p-2 cursor-pointer hover:bg-hover-gray">1. Klasse</option>
+                            <option value="2" class="p-2 cursor-pointer hover:bg-hover-gray">2. Klasse</option>
+                            <option value="3" class="p-2 cursor-pointer hover:bg-hover-gray">3. Klasse</option>
+                            <option value="4" class="p-2 cursor-pointer hover:bg-hover-gray">4. Klasse</option>
+                            <option value="5" class="p-2 cursor-pointer hover:bg-hover-gray">5. Klasse</option>
+                            <option value="6" class="p-2 cursor-pointer hover:bg-hover-gray">6. Klasse</option>
+                            <option value="7" class="p-2 cursor-pointer hover:bg-hover-gray">7. Klasse</option>
+                            <option value="8" class="p-2 cursor-pointer hover:bg-hover-gray">8. Klasse</option>
+                            <option value="9" class="p-2 cursor-pointer hover:bg-hover-gray">9. Klasse</option>
+                            <option value="10" class="p-2 cursor-pointer hover:bg-hover-gray">10. Klasse</option>
+                            <option value="E" class="p-2 cursor-pointer hover:bg-hover-gray">E-Jahrgang</option>
+                            <option value="Q1" class="p-2 cursor-pointer hover:bg-hover-gray">Q1-Jahrgang</option>
+                            <option value="Q2" class="p-2 cursor-pointer hover:bg-hover-gray">Q2-Jahrgang</option>
+                        </div>
+                    </div>
+                    <div class="filter-item mb-4 relative">
+                        <label class="filter-label block text-dark-gray cursor-pointer p-2 bg-light-gray rounded-md" for="preis">Preis</label>
+                        <div class="filter-slider absolute top-full left-0 w-full p-2 bg-white border border-custom-gray rounded-md shadow-lg z-50 hidden" id="preis-slider">
+                            <input type="range" min="0" max="50" value="50" id="preis-range" class="w-full">
+                            <span id="preis-value" class="block text-center text-dark-gray">€50</span>
+                        </div>
+                    </div>
+                    <div class="filter-item mb-4 relative">
+                        <label class="filter-label block text-dark-gray cursor-pointer p-2 bg-light-gray rounded-md" for="bewertung">Bewertung</label>
+                        <div class="filter-dropdown absolute top-full left-0 w-full bg-white border border-custom-gray rounded-md shadow-lg z-50 max-h-48 overflow-y-auto hidden" id="bewertung-dropdown">
+                            <option value="" class="p-2 cursor-pointer hover:bg-hover-gray">Alle</option>
+                            <option value="1" class="p-2 cursor-pointer hover:bg-hover-gray">1 Stern</option>
+                            <option value="2" class="p-2 cursor-pointer hover:bg-hover-gray">2 Sterne</option>
+                            <option value="3" class="p-2 cursor-pointer hover:bg-hover-gray">3 Sterne</option>
+                            <option value="4" class="p-2 cursor-pointer hover:bg-hover-gray">4 Sterne</option>
+                            <option value="5" class="p-2 cursor-pointer hover:bg-hover-gray">5 Sterne</option>
+                        </div>
+                    </div>
+                    <div class="filter-item mb-4 relative">
+                        <label class="filter-label block text-dark-gray cursor-pointer p-2 bg-light-gray rounded-md" for="kapazitaet">Kapazität</label>
+                        <div class="filter-dropdown absolute top-full left-0 w-full bg-white border border-custom-gray rounded-md shadow-lg z-50 max-h-48 overflow-y-auto hidden" id="kapazitaet-dropdown">
+                            <option value="" class="p-2 cursor-pointer hover:bg-hover-gray">Alle</option>
+                            <option value="frei" class="p-2 cursor-pointer hover:bg-hover-gray">Frei</option>
+                            <option value="belegt" class="p-2 cursor-pointer hover:bg-hover-gray">Belegt</option>
+                        </div>
+                    </div>
+                    <div class="filter-item mb-4 relative">
+                        <label class="filter-label block text-dark-gray cursor-pointer p-2 bg-light-gray rounded-md" for="wochentage">Wochentage</label>
+                        <div class="filter-dropdown absolute top-full left-0 w-full bg-white border border-custom-gray rounded-md shadow-lg z-50 max-h-48 overflow-y-auto hidden" id="wochentage-dropdown">
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Mo" class="mr-2">Montag</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Di" class="mr-2">Dienstag</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Mi" class="mr-2">Mittwoch</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Do" class="mr-2">Donnerstag</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Fr" class="mr-2">Freitag</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="Sa" class="mr-2">Samstag</label>
+                            <label class="flex items-center p-2 cursor-pointer hover:bg-hover-gray"><input type="checkbox" value="So" class="mr-2">Sonntag</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer mt-10 text-sm text-dark-gray">
+            <div>Ludwig-Meyn-Gymnasium</div>
+            <div>Seminarstraße 10</div>
+            <div>25336 Uetersen</div>
+            <div class="text-right">04122 46030</div>
+            <div class="text-right">ludwig-meyn-schule.uetersen@schule.landsh.de</div>
+        </div>
+    </div>
+
+    <!-- Popup Container -->
+    <div class="popup-overlay fixed inset-0 bg-black bg-opacity-70 z-50 hidden" id="popup-overlay">
+        <div class="popup fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 h-4/5 bg-white rounded-lg p-8 shadow-2xl z-50 overflow-y-auto" id="popup">
+            <button class="popup-close absolute top-4 right-4 text-2xl text-red-accent focus:outline-none" id="popup-close">×</button>
+            <div class="popup-content mt-8 bg-custom-green p-6 rounded-md shadow-inner">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Move script to end of body with defer -->
+    <script src="/static/script.js" defer></script>
+</body>
+</html>

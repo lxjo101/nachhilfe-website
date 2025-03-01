@@ -1,0 +1,11 @@
+{
+    "folder-color.pathColors": [
+        {
+            "folderPath": "nachhilfe-website\\testest\\",
+            "color": "foldercolorizer.color_cc0033"
+        },
+        {
+            "folderPath": "nachhilfe-website\\.vscode\\"
+        }
+    ]
+}
