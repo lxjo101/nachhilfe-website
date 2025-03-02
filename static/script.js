@@ -8,45 +8,45 @@ const filters = {
     wochentage: ''
 };
 
-// Function to render teacher list based on filters and search
+// Funktion zur Darstellung der Lehrerliste basierend auf Filtern und Suche
 function renderTeacherList(teachers, searchTerm = '') {
     const teacherList = document.getElementById('teacher-list');
-    if (!teacherList) {
-        console.error('Teacher list element not found');
+    if (!teacherList) { // Überprüfen, ob das Lehrerlisten-Element existiert
+        console.error('Lehrerliste-Element nicht gefunden');
         return;
     }
     teacherList.innerHTML = '';
 
-    if (!Array.isArray(teachers)) {
-        console.error('Teachers data is not an array:', teachers);
-        teacherList.innerHTML = '<p class="text-dark-gray text-center p-4">Invalid teacher data format</p>';
+    if (!Array.isArray(teachers)) { // Überprüfen, ob die Lehrerdaten ein Array sind
+        console.error('Lehrerdaten sind kein Array:', teachers);
+        teacherList.innerHTML = '<p class="text-dark-gray text-center p-4">Ungültiges Lehrer-Datenformat</p>';
         return;
     }
 
     const filteredTeachers = teachers.filter(teacher => {
-        if (!teacher || typeof teacher !== 'object') {
-            console.warn('Invalid teacher object:', teacher);
+        if (!teacher || typeof teacher !== 'object') { // Überprüfen, ob das Lehrerobjekt gültig ist
+            console.warn('Ungültiges Lehrerobjekt:', teacher);
             return false;
         }
 
         const matchesFilters = (
-            (filters.fach.length === 0 || filters.fach.some(f => teacher.fach && teacher.fach.toLowerCase() === f.toLowerCase())) &&
-            (!filters.klassenstufe || (teacher.klassenstufe && String(teacher.klassenstufe) === filters.klassenstufe)) &&
-            (teacher.preis !== undefined && teacher.preis <= filters.preis) &&
-            (!filters.bewertung || (teacher.bewertung && teacher.bewertung >= parseInt(filters.bewertung))) &&
-            (!filters.kapazitaet || (filters.kapazitaet === 'frei' ? teacher.kapazitaet > 0 : teacher.kapazitaet === 0)) &&
-            (filters.wochentage.length === 0 || filters.wochentage.some(day => teacher.wochentage && teacher.wochentage.includes(day)))
+            (filters.fach.length === 0 || filters.fach.some(f => teacher.fach && teacher.fach.toLowerCase() === f.toLowerCase())) && // Überprüfen, ob der Lehrer dem Fachfilter entspricht
+            (!filters.klassenstufe || (teacher.klassenstufe && String(teacher.klassenstufe) === filters.klassenstufe)) && // Überprüfen, ob der Lehrer dem Klassenstufenfilter entspricht
+            (teacher.preis !== undefined && teacher.preis <= filters.preis) && // Überprüfen, ob der Lehrer dem Preisfilter entspricht
+            (!filters.bewertung || (teacher.bewertung && teacher.bewertung >= parseInt(filters.bewertung))) && // Überprüfen, ob der Lehrer dem Bewertungsfilter entspricht
+            (!filters.kapazitaet || (filters.kapazitaet === 'frei' ? teacher.kapazitaet > 0 : teacher.kapazitaet === 0)) && // Überprüfen, ob der Lehrer dem Kapazitätsfilter entspricht
+            (filters.wochentage.length === 0 || filters.wochentage.some(day => teacher.wochentage && teacher.wochentage.includes(day))) // Überprüfen, ob der Lehrer dem Wochentagefilter entspricht
         );
 
         const matchesSearch = searchTerm === '' || 
             (teacher.name_schueler && teacher.name_schueler.toLowerCase().includes(searchTerm.toLowerCase())) || 
-            (teacher.fach && teacher.fach.toLowerCase().includes(searchTerm.toLowerCase()));
+            (teacher.fach && teacher.fach.toLowerCase().includes(searchTerm.toLowerCase())); // Überprüfen, ob der Lehrer der Suchanfrage entspricht
 
         return matchesFilters && matchesSearch;
     });
 
     if (filteredTeachers.length === 0) {
-        teacherList.innerHTML = '<p class="text-dark-gray text-center p-4">No teacher listings match the filters or search.</p>';
+        teacherList.innerHTML = '<p class="text-dark-gray text-center p-4">Keine Lehreranzeigen entsprechen den Filtern oder der Suche.</p>';
         return;
     }
 
@@ -54,9 +54,9 @@ function renderTeacherList(teachers, searchTerm = '') {
         const teacherEntry = document.createElement('div');
         teacherEntry.className = 'teacher-entry flex items-center p-4 border-b border-custom-gray hover:bg-hover-gray cursor-pointer';
         teacherEntry.innerHTML = `
-            <img src="https://imgs.search.brave.com/J5-KJNoclGIgO9mgbMuULm8xw_ri-hvqZYOyhc50Q64/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAyLzE3LzM0LzY3/LzM2MF9GXzIxNzM0/Njc4Ml83WHBDVHQ4/YkxOSnF2VkFhRFpK/d3Zaam0wZXBRbWo2/ai5qcGc" alt="Profile Picture" class="w-12 h-12 rounded-full mr-4">
+            <img src="https://imgs.search.brave.com/J5-KJNoclGIgO9mgbMuULm8xw_ri-hvqZYOyhc50Q64/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAyLzE3LzM0LzY3/LzM2MF9GXzIxNzM0/Njc4Ml83WHBDVHQ4/YkxOSnF2VkFhRFpK/d3Zaam0wZXBRbWo2/ai5qcGc" alt="Profilbild" class="w-12 h-12 rounded-full mr-4">
             <div>
-                <strong class="text-dark-text">${teacher.name_schueler || 'Unknown'}</strong><br>
+                <strong class="text-dark-text">${teacher.name_schueler || 'Unbekannt'}</strong><br>
                 <span class="text-dark-gray">Fach: ${teacher.fach || 'N/A'}</span><br>
                 <span class="text-dark-gray">Klassenstufe: ${teacher.klassenstufe || 'N/A'}</span>
             </div>
@@ -64,7 +64,7 @@ function renderTeacherList(teachers, searchTerm = '') {
 
         teacherEntry.addEventListener('click', () => {
             showPopup(`
-                <h2 class="text-dark-text text-2xl mb-4">${teacher.name_schueler || 'Unknown'}</h2>
+                <h2 class="text-dark-text text-2xl mb-4">${teacher.name_schueler || 'Unbekannt'}</h2>
                 <p class="text-dark-gray"><strong class="text-dark-text">Anzeige-ID:</strong> ${teacher.anzeige_id || 'N/A'}</p>
                 <p class="text-dark-gray"><strong class="text-dark-text">Fach:</strong> ${teacher.fach || 'N/A'}</p>
                 <p class="text-dark-gray"><strong class="text-dark-text">Preis:</strong> €${teacher.preis ? teacher.preis.toFixed(2) : 'N/A'}</p>
