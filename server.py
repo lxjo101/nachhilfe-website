@@ -2,8 +2,6 @@ from dependencies.bottle import *
 import uuid
 import database.database as database
 import os
-import hashlib
-import sqlite3
 import json
 
 sessions = {}

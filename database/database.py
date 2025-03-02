@@ -1,6 +1,5 @@
 import os
 import sqlite3
-import random
 
 DB_FILE = "database.sqlite3"
 DB_FILE_PATH = os.path.join(os.path.dirname(__file__), DB_FILE)
@@ -22,7 +21,7 @@ def create_db():
                     bewertungs_id INTEGER PRIMARY KEY AUTOINCREMENT,
                     sterne REAL NOT NULL,
                     schueler_id INTEGER NOT NULL,
-                    FOREIGN KEY(schueler_id) REFERENCES schueler(schueler_id) ON DELETE CASCADE
+                    FOREIGN KEY(schueler_id ) REFERENCES schueler(schueler_id) ON DELETE CASCADE
                     )''')
 
         db.execute('''CREATE TABLE IF NOT EXISTS anzeige(
@@ -91,14 +90,14 @@ def new_student(username, password, schueler_name, telefon, email):
     if len(member) > 0:
         return "username existiert bereits"
     else:
-        db.execute('''INSERT INTO schueler(username, password, schueler_name, telefon, email, bewertungs_id, stern_avg)
-                      VALUES (?, ?, NULL, NULL, NULL, NULL, NULL)''', (username, password, schueler_name, telefon, email))
+        db.execute('''INSERT INTO schueler(username, password, schueler_name, telefon, email)
+                      VALUES (?, ?, ?, ?, ?)''', (username, password, schueler_name, telefon, email))
         db.commit()
         return "Erfolgreich"
     
-def new_advertisement(fach, preis, klassenstufe, wochentage, bewertung, kapazitaet, schueler_id):
-    db.execute('''INSERT INTO anzeige(fach, preis, klassenstufe, wochentage, bewertung, kapazitaet, schueler_id)
-                  VALUES (?, ?, ?, ?, ?, ?, ?)''', (fach, preis, klassenstufe, wochentage, bewertung, kapazitaet, schueler_id))
+def new_advertisement(fach, preis, klassenstufe, wochentage, kapazitaet, schueler_id):
+    db.execute('''INSERT INTO anzeige(fach, preis, klassenstufe, wochentage, kapazitaet, schueler_id)
+                  VALUES (?, ?, ?, ?, ?, ?)''', (fach, preis, klassenstufe, wochentage, kapazitaet, schueler_id))
     db.commit()
     return "Anzeige erfolgreich erstellt"
 
@@ -142,7 +141,7 @@ def create_session(user_id):
     return session_id
 
 def get_user_by_session(session_id):
-    cur = db.execute('''SELECT schueler.* FROM schueler
+    cur = db.execute(''' SELECT schueler.* FROM schueler
                         JOIN sessions ON schueler.schueler_id = sessions.user_id
                         WHERE sessions.session_id = ?''', (session_id,))
     user = cur.fetchone()

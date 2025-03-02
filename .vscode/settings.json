@@ -6,6 +6,22 @@
         },
         {
             "folderPath": "nachhilfe-website\\.vscode\\"
+        },
+        {
+            "folderPath": "nachhilfe-website\\database\\",
+            "color": "foldercolorizer.color_0066ff"
+        },
+        {
+            "folderPath": "nachhilfe-website\\static\\",
+            "color": "foldercolorizer.color_33cc33"
+        },
+        {
+            "folderPath": "nachhilfe-website\\views\\",
+            "color": "foldercolorizer.color_9900ff"
+        },
+        {
+            "folderPath": "nachhilfe-website\\server.py\\",
+            "color": "foldercolorizer.color_cc9900"
         }
     ]
 }

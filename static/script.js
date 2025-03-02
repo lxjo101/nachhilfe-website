@@ -54,7 +54,7 @@ function renderTeacherList(teachers, searchTerm = '') {
         const teacherEntry = document.createElement('div');
         teacherEntry.className = 'teacher-entry flex items-center p-4 border-b border-custom-gray hover:bg-hover-gray cursor-pointer';
         teacherEntry.innerHTML = `
-            <img src="https://via.placeholder.com/50" alt="Profile Picture" class="w-12 h-12 rounded-full mr-4">
+            <img src="https://imgs.search.brave.com/J5-KJNoclGIgO9mgbMuULm8xw_ri-hvqZYOyhc50Q64/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAyLzE3LzM0LzY3/LzM2MF9GXzIxNzM0/Njc4Ml83WHBDVHQ4/YkxOSnF2VkFhRFpK/d3Zaam0wZXBRbWo2/ai5qcGc" alt="Profile Picture" class="w-12 h-12 rounded-full mr-4">
             <div>
                 <strong class="text-dark-text">${teacher.name_schueler || 'Unknown'}</strong><br>
                 <span class="text-dark-gray">Fach: ${teacher.fach || 'N/A'}</span><br>
@@ -63,23 +63,16 @@ function renderTeacherList(teachers, searchTerm = '') {
         `;
 
         teacherEntry.addEventListener('click', () => {
-            const popupOverlay = document.getElementById('popup-overlay');
-            const popupContent = document.querySelector('.popup-content');
-            if (popupOverlay && popupContent) {
-                popupOverlay.classList.remove('hidden');
-                popupContent.innerHTML = `
-                    <h2 class="text-dark-text text-2xl mb-4">${teacher.name_schueler || 'Unknown'}</h2>
-                    <p class="text-dark-gray"><strong class="text-dark-text">Anzeige-ID:</strong> ${teacher.anzeige_id || 'N/A'}</p>
-                    <p class="text-dark-gray"><strong class="text-dark-text">Fach:</strong> ${teacher.fach || 'N/A'}</p>
-                    <p class="text-dark-gray"><strong class="text-dark-text">Preis:</strong> €${teacher.preis ? teacher.preis.toFixed(2) : 'N/A'}</p>
-                    <p class="text-dark-gray"><strong class="text-dark-text">Klassenstufe:</strong> ${teacher.klassenstufe || 'N/A'}</p>
-                    <p class="text-dark-gray"><strong class="text-dark-text">Wochentage:</strong> ${teacher.wochentage || 'N/A'}</p>
-                    <p class="text-dark-gray"><strong class="text-dark-text">Kapazität:</strong> ${teacher.kapazitaet ? teacher.kapazitaet + ' Schüler' : 'N/A'}</p>
-                    <p class="text-dark-gray"><strong class="text-dark-text">Schüler-ID:</strong> ${teacher.schueler_id || 'N/A'}</p>
-                `;
-            } else {
-                console.error('Popup elements not found');
-            }
+            showPopup(`
+                <h2 class="text-dark-text text-2xl mb-4">${teacher.name_schueler || 'Unknown'}</h2>
+                <p class="text-dark-gray"><strong class="text-dark-text">Anzeige-ID:</strong> ${teacher.anzeige_id || 'N/A'}</p>
+                <p class="text-dark-gray"><strong class="text-dark-text">Fach:</strong> ${teacher.fach || 'N/A'}</p>
+                <p class="text-dark-gray"><strong class="text-dark-text">Preis:</strong> €${teacher.preis ? teacher.preis.toFixed(2) : 'N/A'}</p>
+                <p class="text-dark-gray"><strong class="text-dark-text">Klassenstufe:</strong> ${teacher.klassenstufe || 'N/A'}</p>
+                <p class="text-dark-gray"><strong class="text-dark-text">Wochentage:</strong> ${teacher.wochentage || 'N/A'}</p>
+                <p class="text-dark-gray"><strong class="text-dark-text">Kapazität:</strong> ${teacher.kapazitaet ? teacher.kapazitaet + ' Schüler' : 'N/A'}</p>
+                <p class="text-dark-gray"><strong class="text-dark-text">Schüler-ID:</strong> ${teacher.schueler_id || 'N/A'}</p>
+            `);
         });
 
         teacherList.appendChild(teacherEntry);
@@ -116,6 +109,18 @@ function fetchTeacherList() {
                 teacherList.innerHTML = `<p class="text-dark-gray text-center p-4">Error loading teacher listings: ${error.message}</p>`;
             }
         });
+}
+
+// Function to show popup with content
+function showPopup(content) {
+    const popupOverlay = document.getElementById('popup-overlay');
+    const popupContent = document.getElementById('popup-content');
+    if (popupOverlay && popupContent) {
+        popupContent.innerHTML = content;
+        popupOverlay.classList.remove('hidden');
+    } else {
+        console.error('Popup elements not found');
+    }
 }
 
 // Initialize app after DOM is loaded
@@ -225,7 +230,42 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Navbar elements not found:', { navbarToggle, navbarMenu });
     }
 
-    // Removed "click outside" listener to avoid null error
+    // "Meine Daten" popup
+    const meineDatenLink = document.querySelector('#navbar-menu a[href="#"]:nth-child(1)');
+    if (meineDatenLink) {
+        meineDatenLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('"Meine Daten" clicked');
+            showPopup(`
+                <div class="bg-white border border-custom-gray p-6 rounded-md shadow-md w-80 mx-auto">
+                    <div class="bg-custom-green p-2 rounded-t-md">
+                        <h1 class="text-center text-2xl font-semibold text-dark-text">Meine Daten</h1>
+                    </div>
+                    <form>
+                        <div class="mb-4 mt-2">
+                            <label class="block text-dark-gray mb-2" for="name">Name</label>
+                            <input class="w-full px-3 py-2 border border-custom-gray rounded-md" type="text" id="name" name="name">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-dark-gray mb-2" for="tel">Telefonnummer</label>
+                            <input class="w-full px-3 py-2 border border-custom-gray rounded-md" type="tel" id="tel" name="tel">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-dark-gray mb-2" for="email">E-Mail Adresse</label>
+                            <input class="w-full px-3 py-2 border border-custom-gray rounded-md" type="email" id="email" name="email">
+                        </div>
+                        <div class="flex justify-center mt-4">
+                            <button type="submit" class="bg-custom-green border border-custom-gray rounded-md p-2 w-1/2 flex justify-center items-center">
+                                <i class="fas fa-check text-dark-text"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `);
+        });
+    } else {
+        console.error('"Meine Daten" link not found');
+    }
 
     // Close popup
     const popupClose = document.getElementById('popup-close');
