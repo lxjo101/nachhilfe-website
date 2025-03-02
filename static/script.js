@@ -237,30 +237,30 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             console.log('"Meine Daten" clicked');
             showPopup(`
-                <div class="bg-white border border-custom-gray p-6 rounded-md shadow-md w-80 mx-auto">
-                    <div class="bg-custom-green p-2 rounded-t-md">
-                        <h1 class="text-center text-2xl font-semibold text-dark-text">Meine Daten</h1>
-                    </div>
-                    <form>
-                        <div class="mb-4 mt-2">
-                            <label class="block text-dark-gray mb-2" for="name">Name</label>
-                            <input class="w-full px-3 py-2 border border-custom-gray rounded-md" type="text" id="name" name="name">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-dark-gray mb-2" for="tel">Telefonnummer</label>
-                            <input class="w-full px-3 py-2 border border-custom-gray rounded-md" type="tel" id="tel" name="tel">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-dark-gray mb-2" for="email">E-Mail Adresse</label>
-                            <input class="w-full px-3 py-2 border border-custom-gray rounded-md" type="email" id="email" name="email">
-                        </div>
-                        <div class="flex justify-center mt-4">
-                            <button type="submit" class="bg-custom-green border border-custom-gray rounded-md p-2 w-1/2 flex justify-center items-center">
-                                <i class="fas fa-check text-dark-text"></i>
-                            </button>
-                        </div>
-                    </form>
+                <div class="bg-white">
+                <div class="flex justify-center bg-green-200 p-2 rounded-t-md mx-auto">
+                    <h1 class="text-center text-3xl font-semibold" style="color: #000000;">Meine Daten</h1>
                 </div>
+                <form>
+                    <div class="mb-4 mt-2 text-center items-center justify-center">
+                        <label class="block text-gray-700 mb-2" for="name">Name</label>
+                        <input class="w-50 px-3 py-2 border border-gray-300 rounded-md" type="name" id="name" name="name">
+                    </div>
+                    <div class="mb-4 text-center items-center justify-center">
+                        <label class="block text-gray-700 mb-2" for="phone_number">Telefonnummer</label>
+                        <input class="w-50 px-3 py-2 border border-gray-300 rounded-md" type="phone_number" id="phone_number" name="phone_number">
+                    </div>
+                    <div class="mb-4 text-center items-center justify-center">
+                        <label class="block text-gray-700 mb-2" for="email">E-Mail Adresse</label>
+                        <input class="w-50 px-3 py-2 border border-gray-300 rounded-md" type="email" id="email" name="email">
+                    </div>
+                    <div class="flex justify-center mt-4">
+                        <button type="submit" class="bg-green-200 border border-gray-300 rounded-md p-2 w-200">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
             `);
         });
     } else {
